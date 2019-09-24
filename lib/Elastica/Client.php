@@ -338,6 +338,15 @@ class Client
 
         $bulk = new Bulk($this);
 
+        $indexes = [];
+        foreach ($docs as $doc) {
+             $indexes[] = $doc->getIndex();
+        }
+        $indexes = array_unique($indexes);
+        if (count($indexes) === 1 && isset($indexes[0])) {
+            $bulk->setIndex($indexes[0]);
+        }
+
         $bulk->addDocuments($docs);
 
         foreach ($requestParams as $key => $value) {
